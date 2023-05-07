@@ -1,27 +1,23 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Stack } from 'expo-router';
 import SettingsIcon from 'react-native-vector-icons/Feather';
-import moment from "moment";
+import moment from 'moment';
 import { useState, useEffect } from 'react';
 
 import { COLORS, FONT } from '../../constants/theme';
 
 const ScreenHeader = ({ title }) => {
-  // var now = new moment();
-  // console.log(now.format('HH:mm:ss'));
+  const [date, setDate] = useState(new Date());
 
-  const [currentDate, setCurrentDate] = useState('');
-
-useEffect(() => {   
-        
-    // get current time 
-
-     var date = moment().utcOffset('+05:30').format(' hh:mm:ss a');
-
-    // or get time ' hh:mm:ss a'
-
-    setCurrentDate(date); 
- }, []);
+  const refreshClock = () => {
+    setDate(new Date());
+  };
+  useEffect(() => {
+    const timerId = setInterval(refreshClock, 1000);
+    return function cleanup() {
+      clearInterval(timerId);
+    };
+  }, []);
 
   return (
     <>
@@ -42,10 +38,22 @@ useEffect(() => {
             </Text>
           ),
           headerRight: () => (
-            <TouchableOpacity style={{ paddingRight: 10 }}>
-              <SettingsIcon color="white" name="settings" size={25} />
-            </TouchableOpacity>
-            // <Text>Current Date:{currentDate}</Text>
+            // <TouchableOpacity style={{ paddingRight: 10 }}>
+            //   <SettingsIcon color="white" name="settings" size={25} />
+            // </TouchableOpacity>
+            <Text
+              style={{
+                color: COLORS.darkHeading,
+                fontFamily: FONT.bold,
+                fontSize: 28,
+              }}
+            >
+              {date.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              })}
+            </Text>
           ),
         }}
       />
