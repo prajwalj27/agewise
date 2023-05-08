@@ -1,13 +1,14 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
+import styles from './style';
 import { ScreenHeader } from '../../../components';
 
 const Chat = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <ScreenHeader title="Chat" />
-      <Text>Chat</Text>
+      <Text style={styles.text}>Here are your Chats</Text>
     </View>
   );
 };

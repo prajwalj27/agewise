@@ -12,7 +12,7 @@ const FONT = {
 
 const SIZES = {
   // small: ,
-  regular: 14,
+  regular: 22,
   large: 18,
 };
 

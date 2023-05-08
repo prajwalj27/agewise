@@ -31,7 +31,7 @@ const ScreenHeader = ({ title }) => {
               style={{
                 color: COLORS.darkHeading,
                 fontFamily: FONT.bold,
-                fontSize: 28,
+                fontSize: 30,
               }}
             >
               {title}
