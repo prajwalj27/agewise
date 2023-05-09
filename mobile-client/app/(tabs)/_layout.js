@@ -26,7 +26,7 @@ export default function AppLayout() {
             fontFamily: FONT.medium,
           },
           tabBarItemStyle: { width: 100 },
-          tabBarActiveTintColor: '#6aaefc',
+          tabBarActiveTintColor: COLORS.primaryColor,
         }}
       >
         <Tabs.Screen

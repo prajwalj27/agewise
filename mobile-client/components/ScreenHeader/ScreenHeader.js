@@ -1,13 +1,29 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Stack } from 'expo-router';
-import SettingsIcon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS, FONT } from '../../constants/theme';
 
 const ScreenHeader = ({ title }) => {
+  const router = useRouter();
   const [date, setDate] = useState(new Date());
+  const [user, setUser] = useState('');
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@storage_Key');
+        const userData = JSON.parse(jsonValue);
+        setUser(userData.username);
+        return userData;
+      } catch (e) {
+        // error reading value
+      }
+    };
+
+    getData();
+  }, []);
 
   const refreshClock = () => {
     setDate(new Date());
@@ -18,6 +34,16 @@ const ScreenHeader = ({ title }) => {
       clearInterval(timerId);
     };
   }, []);
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Logged Out');
+      router.push('/login');
+    } catch (e) {
+      // saving error
+    }
+  };
 
   return (
     <>
@@ -38,22 +64,17 @@ const ScreenHeader = ({ title }) => {
             </Text>
           ),
           headerRight: () => (
-            // <TouchableOpacity style={{ paddingRight: 10 }}>
-            //   <SettingsIcon color="white" name="settings" size={25} />
-            // </TouchableOpacity>
-            <Text
-              style={{
-                color: COLORS.darkHeading,
-                fontFamily: FONT.bold,
-                fontSize: 28,
-              }}
-            >
-              {date.toLocaleString('en-US', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true,
-              })}
-            </Text>
+            <TouchableOpacity onPress={logout}>
+              <Text
+                style={{
+                  color: COLORS.primaryColor,
+                  fontFamily: FONT.bold,
+                  fontSize: 30,
+                }}
+              >
+                {user}
+              </Text>
+            </TouchableOpacity>
           ),
         }}
       />
