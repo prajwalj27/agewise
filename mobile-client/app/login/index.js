@@ -45,6 +45,7 @@ const Login = () => {
     if (users.some(checkUsername) && users.some(checkPassword)) {
       // Store the login details in asyncStorage
       storeData(usernameInput, passwordInput);
+      console.log(`Logged In as ${username}`)
       router.push('/stories');
       setPassword('');
       setUsername('');
@@ -76,7 +77,7 @@ const Login = () => {
             marginBottom: 33,
           }}
         >
-          Welcome to Age<Text style={{ color: COLORS.primaryColor }}>Wise</Text>
+          Welcome to <Text style={{ color: COLORS.primaryColor }}>  AgeWise</Text>
         </Text>
 
         <Text style={styles.text}>Username</Text>

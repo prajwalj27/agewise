@@ -1,17 +1,34 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Share } from 'react-native';
 import React, { useState } from 'react';
 import LikeIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SaveIcons from 'react-native-vector-icons/MaterialIcons';
 import ShareIcon from 'react-native-vector-icons/Feather';
+import { useRouter } from 'expo-router';
 
 import styles from './style';
 import { ScreenHeader } from '../../../components';
 import { stories } from '../../../constants/dummy';
 import { COLORS } from '../../../constants/theme';
 
-const StoryCard = ({ title, author, story, likes }) => {
+const StoryCard = ({ id, title, author, story, likes }) => {
+  const router = useRouter()
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
+
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `${title} 
+
+${story}
+
+- by ${author}
+`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <View style={styles.stories}>
@@ -22,9 +39,8 @@ const StoryCard = ({ title, author, story, likes }) => {
         <Text style={styles.subtitle}>
           Posted by {author} &#8226; 2 days ago
         </Text>
-        {/* <Text style={styles.subtitle}>2 days ago</Text> */}
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {router.push(`stories/${id}`)}}>
         <Text style={styles.content} numberOfLines={5}>
           {story}
         </Text>
@@ -41,7 +57,7 @@ const StoryCard = ({ title, author, story, likes }) => {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleShare}>
             <ShareIcon name="send" color={COLORS.primaryColor} size={27} />
           </TouchableOpacity>
         </View>
@@ -71,6 +87,7 @@ const Stories = () => {
             author={story.author}
             story={story.story}
             likes={story.likes}
+            id={story.id}
             key={story.id}
           />
         ))}

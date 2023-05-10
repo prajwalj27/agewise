@@ -6,7 +6,7 @@ const index = () => {
   const router = useRouter();
   return (
     <>
-      <Redirect href="/stories" />
+      <Redirect href="/reminders" />
     </>
   );
 };
