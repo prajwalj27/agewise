@@ -11,10 +11,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 import { COLORS, FONT, SIZES } from '../../constants/theme';
-import { users } from '../../constants/dummy';
+import { users, seniorCitizenNames } from '../../constants/dummy';
 
 const Login = () => {
   const router = useRouter();
+
+  const randomIndex = Math.floor(Math.random() * seniorCitizenNames.length);
+
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -73,13 +76,13 @@ const Login = () => {
             marginBottom: 33,
           }}
         >
-          Welcome to AgeWise
+          Welcome to Age<Text style={{color: COLORS.primaryColor}}>Wise</Text>
         </Text>
 
         <Text style={styles.text}>Username</Text>
         <TextInput
           style={styles.textInput}
-          placeholder="Enter Username"
+          placeholder={seniorCitizenNames[randomIndex]}
           value={username}
           onChangeText={(text) => setUsername(text)}
         />
@@ -87,7 +90,7 @@ const Login = () => {
         <Text style={styles.text}>Password</Text>
         <TextInput
           style={styles.textInput}
-          placeholder="Enter Password"
+          placeholder="Enter your Password"
           value={password}
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
