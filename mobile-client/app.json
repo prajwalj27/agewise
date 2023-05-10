@@ -6,6 +6,19 @@
     },
     "orientation": "portrait",
     "name": "client",
-    "slug": "client"
+    "slug": "client",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#6aaefc",
+          "sounds": [
+            "./local/assets/notification-sound.wav",
+            "./local/assets/notification-sound-other.wav"
+          ]
+        }
+      ]
+    ]
   }
 }

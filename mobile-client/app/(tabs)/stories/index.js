@@ -70,17 +70,16 @@ ${story}
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.subtitle}>{likes} likes</Text>
+      <Text style={styles.subtitle}>{likes.toLocaleString()} likes</Text>
     </View>
   );
 };
 
 const Stories = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <ScreenHeader title="Stories" />
 
-      <ScrollView>
         {stories.map((story) => (
           <StoryCard
             title={story.title}
@@ -91,8 +90,7 @@ const Stories = () => {
             key={story.id}
           />
         ))}
-      </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 

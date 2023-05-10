@@ -23,11 +23,8 @@ const styles = StyleSheet.create({
     color: COLORS.darkHeading,
     fontSize: SIZES.large,
     marginBottom: 10,
-    // textAlign: 'center'
   },
   subtitleSection: {
-    // borderBottomColor: COLORS.darkText,
-    // borderBottomWidth: 0.5,
     paddingBottom: 5,
     marginBottom: 15,
     flexDirection: 'row',
@@ -37,16 +34,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: COLORS.darkText,
     fontSize: SIZES.small,
-
-    // fontStyle: 'italic',
   },
   content: {
     textAlign: 'justify',
     fontFamily: FONT.regular,
     color: COLORS.darkHeading,
     fontSize: SIZES.regular,
-    // borderBottomColor: COLORS.darkText,
-    // borderBottomWidth: 0.5,
   },
   interactSection: {
     paddingBottom: 5,

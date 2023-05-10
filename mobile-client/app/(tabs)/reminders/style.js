@@ -9,7 +9,29 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   text: {
-    color: COLORS.darkText,
+    color: COLORS.primaryColor,
+    fontSize: SIZES.small,
+    fontFamily: FONT.regular,
+  },
+  textAlt: {
+    color: 'red',
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+  },
+  card: {
+    height: 100,
+    backgroundColor: COLORS.darkGrey,
+    width: '100%',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  title: {
+    color: COLORS.darkHeading,
+    fontFamily: FONT.bold,
     fontSize: SIZES.regular,
   },
 });
