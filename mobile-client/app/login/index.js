@@ -45,11 +45,11 @@ const Login = () => {
     if (users.some(checkUsername) && users.some(checkPassword)) {
       // Store the login details in asyncStorage
       storeData(usernameInput, passwordInput);
-      router.push('/home');
+      router.push('/stories');
       setPassword('');
       setUsername('');
     } else {
-      alert('Enter valid Login details!')
+      alert('Enter valid Login details!');
     }
   };
 
@@ -76,7 +76,7 @@ const Login = () => {
             marginBottom: 33,
           }}
         >
-          Welcome to Age<Text style={{color: COLORS.primaryColor}}>Wise</Text>
+          Welcome to Age<Text style={{ color: COLORS.primaryColor }}>Wise</Text>
         </Text>
 
         <Text style={styles.text}>Username</Text>

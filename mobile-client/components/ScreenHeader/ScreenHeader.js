@@ -16,7 +16,6 @@ const ScreenHeader = ({ title }) => {
         const jsonValue = await AsyncStorage.getItem('@storage_Key');
         const userData = JSON.parse(jsonValue);
         setUser(userData.username);
-        console.log(userData)
         return userData;
       } catch (e) {
         // error reading value
