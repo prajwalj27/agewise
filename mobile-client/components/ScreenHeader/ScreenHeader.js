@@ -27,15 +27,7 @@ const ScreenHeader = ({ title }) => {
     };
   }, []);
 
-  const logout = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Logged Out');
-      router.push('/login');
-    } catch (e) {
-      // saving error
-    }
-  };
+  
 
   return (
     <>
@@ -56,7 +48,7 @@ const ScreenHeader = ({ title }) => {
             </Text>
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={logout}>
+            <TouchableOpacity onPress={() => router.push('/profile')}>
               <Text
                 style={{
                   color: COLORS.primaryColor,
