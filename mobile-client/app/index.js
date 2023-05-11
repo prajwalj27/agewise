@@ -10,7 +10,7 @@ const index = () => {
   const router = useRouter();
   return (
     <>
-      {/* <Redirect href="/chatRoom/1" /> */}
+      {/* <Redirect href="/stories" /> */}
       <Redirect href="/login" />
     </>
   );

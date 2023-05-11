@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
   subtitle: {
     fontFamily: FONT.medium,
