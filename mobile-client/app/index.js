@@ -10,7 +10,7 @@ const index = () => {
   const router = useRouter();
   return (
     <>
-      <Redirect href="/reminders" />
+      <Redirect href="/login" />
     </>
   );
 };

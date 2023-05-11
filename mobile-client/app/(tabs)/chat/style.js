@@ -11,6 +11,33 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.darkText,
     fontSize: SIZES.regular,
+    fontFamily: FONT.regular,
+  },
+  heading: {
+    color: COLORS.darkHeading,
+    fontSize: SIZES.regular,
+    fontFamily: FONT.regular,
+    fontSize: SIZES.large,
+    marginBottom: 20,
+  },
+  discussions: {
+    height: 100,
+    width: '100%',
+    backgroundColor: COLORS.darkGrey,
+    borderRadius: 10,
+    justifyContent: 'center',
+    padding: 10,
+    marginBottom: 20,
+  },
+  subtitle: {
+    color: COLORS.darkText,
+    fontSize: SIZES.small,
+    fontFamily: FONT.regular,
+  },
+  title: {
+    color: COLORS.primaryColor,
+    fontFamily: FONT.bold,
+    fontSize: SIZES.regular,
   },
 });
 

@@ -82,3 +82,66 @@ export const stories = [
       "Once in a bustling marketplace, a rich merchant dropped a shiny golden coin. A poor old man noticed it and picked it up. Instead of keeping it for himself, he handed it back to the merchant. The merchant, impressed by the old man's honesty, rewarded him generously. Later, the old man revealed, 'I am not poor. I am rich with contentment and honesty.' The moral of the story is that true wealth lies in integrity and the joy of doing what is right, rather than material possessions.",
   },
 ];
+
+export const discussions = [
+  {
+    id: 0,
+    topic: 'IPL 2023 pe charcha',
+    members: 9,
+    chatId: '0111'
+  },
+  {
+    id: 1,
+    topic: 'Modiji',
+    members: 5,
+  },
+  {
+    id: 2,
+    topic: 'Thakur Village Meetup',
+    members: 12,
+  },
+  {
+    id: 3,
+    topic: 'Naashta Paani',
+    members: 4,
+  },
+];
+
+export const chat = [
+  {
+    id: 0, 
+    author: 'Hrishi', 
+    message: 'Hey guys!!',
+    datetime: '11/05/2023 02:46pm'
+  },
+  {
+    id: 1, 
+    author: 'Hrishi', 
+    message: 'MI vs CSK Dekha??👀',
+    datetime: '11/05/2023 02:49pm'
+  },
+  {
+    id: 3, 
+    author: 'Aryan', 
+    message: 'Mumbai indians ka game bohot acha tha! maja hi aa gaya!! 🔥🔥🔥🔥🔥🔥',
+    datetime: '11/05/2023 02:50pm'
+  },
+  {
+    id: 4, 
+    author: 'Kartik', 
+    message: 'Loved Dhoniji ki batting yesterday 💪',
+    datetime: '11/05/2023 02:50pm'
+  },
+  {
+    id: 5, 
+    author: 'Prajwal', 
+    message: 'Hey everyone!',
+    datetime: '11/05/2023 03:00pm'
+  },
+  {
+    id: 6, 
+    author: 'Prajwal', 
+    message: '👋',
+    datetime: '11/05/2023 03:00pm'
+  },
+]

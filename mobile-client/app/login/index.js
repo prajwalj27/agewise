@@ -77,7 +77,7 @@ const Login = () => {
             marginBottom: 33,
           }}
         >
-          Welcome to <Text style={{ color: COLORS.primaryColor }}>  AgeWise</Text>
+          Welcome to <Text style={{ color: COLORS.primaryColor }}>AgeWise</Text>
         </Text>
 
         <Text style={styles.text}>Username</Text>

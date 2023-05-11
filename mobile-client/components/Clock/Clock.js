@@ -21,7 +21,7 @@ const Clock = () => {
         style={{
           margin: 20,
           fontFamily: FONT.regular,
-          fontSize: 40,
+          fontSize: 50,
           color: COLORS.darkHeading,
           textAlign: 'center',
         }}
@@ -29,7 +29,6 @@ const Clock = () => {
         {date.toLocaleString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
-          second: 'numeric',
           hour12: true,
         })}
       </Text>

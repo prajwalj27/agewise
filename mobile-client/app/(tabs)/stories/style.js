@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.regular,
     borderBottomColor: COLORS.darkText,
     borderBottomWidth: 0.5,
-    paddingBottom: 5,
+    padding: 10,
+    paddingTop: 5,
     marginBottom: 12,
   },
   interactSection: {
