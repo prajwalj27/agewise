@@ -70,10 +70,9 @@ const Reminders = () => {
         }}
       >
         Here are your Reminders
-      </Text> */}
-      {/* <Button title="Get datetime" onPress={() => alert(new Date())} /> */}
+      </Text> 
 
-      {/* <View
+      <View
         style={{
           flex: 1,
           alignItems: 'center',

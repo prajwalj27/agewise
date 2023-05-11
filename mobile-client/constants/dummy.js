@@ -112,36 +112,36 @@ export const chat = [
     id: 0, 
     author: 'Hrishi', 
     message: 'Hey guys!!',
-    datetime: '11/05/2023 02:46pm'
+    datetime: '11/05/2023 02:46'
   },
   {
     id: 1, 
     author: 'Hrishi', 
     message: 'MI vs CSK Dekha??👀',
-    datetime: '11/05/2023 02:49pm'
+    datetime: '11/05/2023 02:49'
+  },
+  {
+    id: 2, 
+    author: 'Aryan', 
+    message: 'Mumbai indians ka game bohot acha tha! maja hi aa gaya!! 🔥🔥🔥🔥🔥🔥',
+    datetime: '11/05/2023 02:50'
   },
   {
     id: 3, 
-    author: 'Aryan', 
-    message: 'Mumbai indians ka game bohot acha tha! maja hi aa gaya!! 🔥🔥🔥🔥🔥🔥',
-    datetime: '11/05/2023 02:50pm'
+    author: 'Kartik', 
+    message: 'Loved Dhoniji ki batting yesterday 💪',
+    datetime: '11/05/2023 02:50'
   },
   {
     id: 4, 
-    author: 'Kartik', 
-    message: 'Loved Dhoniji ki batting yesterday 💪',
-    datetime: '11/05/2023 02:50pm'
+    author: 'Prajwal', 
+    message: 'Hey everyone!',
+    datetime: '11/05/2023 03:00'
   },
   {
     id: 5, 
     author: 'Prajwal', 
-    message: 'Hey everyone!',
-    datetime: '11/05/2023 03:00pm'
-  },
-  {
-    id: 6, 
-    author: 'Prajwal', 
     message: '👋',
-    datetime: '11/05/2023 03:00pm'
+    datetime: '11/05/2023 03:00'
   },
 ]

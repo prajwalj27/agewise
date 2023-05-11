@@ -5,13 +5,14 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 import { COLORS, FONT, SIZES } from '../../constants/theme';
 import { users, seniorCitizenNames } from '../../constants/dummy';
+import { setLoggedInUser, getLoggedInUser } from '../../utils/userLogin';
 
 const Login = () => {
   const router = useRouter();
@@ -20,16 +21,7 @@ const Login = () => {
 
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-
-  const storeData = async (usernameInput, passwordInput) => {
-    const value = { username: usernameInput, password: passwordInput };
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@storage_Key', jsonValue);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
+  const [user, setUser] = useState();
 
   const handleLogin = (usernameInput, passwordInput) => {
     // Check if the input fields are not empty
@@ -44,8 +36,8 @@ const Login = () => {
 
     if (users.some(checkUsername) && users.some(checkPassword)) {
       // Store the login details in asyncStorage
-      storeData(usernameInput, passwordInput);
-      console.log(`Logged In as ${username}`)
+      setLoggedInUser(usernameInput, passwordInput);
+      console.log(`Logged In as ${username}`);
       router.push('/stories');
       setPassword('');
       setUsername('');
@@ -53,6 +45,17 @@ const Login = () => {
       alert('Enter valid Login details!');
     }
   };
+
+  // useEffect(() => {
+  //   getLoggedInUser(setUser);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(`user already logged in as ${user}`);
+  //     router.push('/home')
+  //   }
+  // }, [user]);
 
   return (
     <View style={styles.container}>

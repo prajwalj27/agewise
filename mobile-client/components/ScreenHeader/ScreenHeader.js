@@ -4,30 +4,22 @@ import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS, FONT } from '../../constants/theme';
+import { getLoggedInUser } from '../../utils/userLogin';
 
 const ScreenHeader = ({ title }) => {
   const router = useRouter();
   const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('@storage_Key');
-        const userData = JSON.parse(jsonValue);
-        setUser(userData.username);
-        return userData;
-      } catch (e) {
-        // error reading value
-      }
-    };
-
-    getData();
-  }, []);
-
   const refreshClock = () => {
     setDate(new Date());
   };
+  
+  useEffect(() => {
+    getLoggedInUser(setUser);
+  }, []);
+
+
   useEffect(() => {
     const timerId = setInterval(refreshClock, 1000);
     return function cleanup() {

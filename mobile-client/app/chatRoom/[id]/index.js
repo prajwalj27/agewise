@@ -5,37 +5,89 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  RefreshControl,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { usePathname, Stack, useRouter } from 'expo-router';
-import SendIcon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios';
 
 import styles from '../style';
 import { COLORS, FONT } from '../../../constants/theme';
 import { discussions, chat } from '../../../constants/dummy';
+import { getLoggedInUser } from '../../../utils/userLogin';
+import { baseURL } from '../../../config';
 
 const Chat = () => {
   const pathName = usePathname();
+  const scrollViewRef = useRef();
   const router = useRouter();
+
   const chatId = pathName.split('/')[2];
+
+  const [refreshing, setRefreshing] = useState(false);
   const [user, setUser] = useState('');
   const [text, setText] = useState('');
+  const [allChats, setAllChats] = useState();
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllChats();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+  
+  const getAllChats = async () => {
+    try {
+      const { data } = await axios.get(`${baseURL}/api/chats/${chatId}`);
+      setAllChats(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('@storage_Key');
-        const userData = JSON.parse(jsonValue);
-        setUser(userData.username);
-        return userData;
-      } catch (e) {
-        // error reading value
-      }
-    };
+    (function () {
+      // do some stuff
+      onRefresh();
 
-    getData();
+      setTimeout(arguments.callee, 5000);
+    })();
   }, []);
+
+  useEffect(() => {
+    getLoggedInUser(setUser);
+  }, []);
+
+  useEffect(() => {
+    getAllChats();
+  }, []);
+
+  const sendMessage = async () => {
+    if (text !== '') {
+      const newMessage = {
+        id: allChats?.length,
+        author: user,
+        message: text,
+        datetime: new Date().toLocaleString().slice(0, 17),
+      };
+
+      try {
+        const { data } = await axios.post(
+          `${baseURL}/api/chats/new/${chatId}`,
+          newMessage
+        );
+        console.log(data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    setText('');
+    onRefresh();
+    // onRefresh();
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -45,35 +97,55 @@ const Chat = () => {
           headerShadowVisible: true,
           headerTitle: discussions[chatId].topic,
           headerTintColor: COLORS.primaryColor,
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                onRefresh();
+                this.scrollView.scrollToEnd({ animated: true });
+              }}
+            >
+              <MaterialIcons
+                name="refresh"
+                color={COLORS.primaryColor}
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
       <StatusBar animated={true} barStyle={'light-content'} />
 
-      <ScrollView style={styles.container}>
-        {chat.map((msg) => (
+      <ScrollView
+        style={styles.container}
+        ref={(ref) => (this.scrollView = ref)}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={refreshing}
+        //     onRefresh={onRefresh}
+        //     progressBackgroundColor={COLORS.primaryColor}
+        //   />
+        // }
+
+        onContentSizeChange={() =>
+          this.scrollView.scrollToEnd({ animated: true })
+        }
+      >
+        {allChats?.map((msg) => (
           <View
-            style={
-              user === msg.author
-                ? { flexDirection: 'row-reverse' }
-                : { flexDirection: 'row' }
-            }
-            key={msg.id}
+            style={{
+              flexDirection: user === msg.author ? 'row-reverse' : 'row',
+            }}
+            key={msg.id + msg.author}
           >
-            <View style={user === msg.author ? styles.myMessage : styles.message}>
-              
-              <View
-                style={styles.msgHeader}
-              >
-                <Text
-                  style={styles.msgAuthor}
-                  numberOfLines={1}
-                >
+            <View
+              style={user === msg.author ? styles.myMessage : styles.message}
+            >
+              <View style={styles.msgHeader}>
+                <Text style={styles.msgAuthor} numberOfLines={1}>
                   {msg.author}
                 </Text>
-                <Text
-                  style={styles.msgDate}
-                >
-                  {msg.datetime.split(' ')[0]}
+                <Text style={styles.msgDate}>
+                  {msg.datetime.split(' ')[0].slice(0, 10)}
                 </Text>
               </View>
 
@@ -98,6 +170,7 @@ const Chat = () => {
           flexDirection: 'row',
           width: '100%',
           padding: 10,
+          // paddingTop: 10,
           justifyContent: 'space-between',
           alignItems: 'center',
           borderColor: 'black',
@@ -120,8 +193,13 @@ const Chat = () => {
             borderRadius: 8,
           }}
         />
-        <TouchableOpacity onPress={() => {}}>
-          <SendIcon name="send" color={COLORS.primaryColor} size={30} />
+        <TouchableOpacity
+          onPress={() => {
+            sendMessage();
+            // this.scrollView.scrollToEnd({ animated: true });
+          }}
+        >
+          <MaterialIcons name="send" color={COLORS.primaryColor} size={30} />
         </TouchableOpacity>
       </View>
     </View>

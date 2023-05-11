@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.darkBackground,
     flex: 1,
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   msgText: {
     color: COLORS.darkText,
