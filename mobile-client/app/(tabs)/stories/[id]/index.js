@@ -6,10 +6,12 @@ import SaveIcons from 'react-native-vector-icons/MaterialIcons';
 import SoundIcon from 'react-native-vector-icons/AntDesign';
 import { usePathname, Stack } from 'expo-router';
 import * as Speech from 'expo-speech';
+import axios from 'axios'
 
 import { COLORS, FONT, SIZES } from '../../../../constants/theme';
 import styles from './style';
 import { stories } from '../../../../constants/dummy';
+import { baseURL } from '../../../../config';
 
 const Story = () => {
   const pathName = usePathname();
@@ -18,13 +20,14 @@ const Story = () => {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [story, setStory] = useState()
 
   const handleShare = async () => {
     try {
       const result = await Share.share({
-        message: `${stories[storyId].title} 
+        message: `${story?.title} 
 
-${stories[storyId].story}
+${story?.story}
 
 - by ${stories[storyId].author}
 `,
@@ -34,10 +37,21 @@ ${stories[storyId].story}
     }
   };
 
-  const textToSpeech = () => {};
+  useEffect(() => {
+    const getStory = async () => {
+      try {
+        const {data} = await axios.get(`${baseURL}/api/stories/${storyId}`)
+        setStory(data)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    getStory()
+  }, [])
 
   useEffect(() => {
-    isSpeaking ? Speech.speak(stories[storyId].story) : Speech.stop();
+    isSpeaking ? Speech.speak(story?.story) : Speech.stop();
   }, [isSpeaking]);
 
   return (
@@ -51,11 +65,11 @@ ${stories[storyId].story}
         }}
       />
 
-      <Text style={styles.title}>{stories[storyId].title}</Text>
+      <Text style={styles.title}>{story?.title}</Text>
 
       <View style={styles.subtitleSection}>
         <Text style={styles.subtitle}>
-          Posted by {stories[storyId].author} &#8226; 2 days ago
+          Posted by {story?.author} &#8226; 2 days ago
         </Text>
         <TouchableOpacity onPress={() => setIsSpeaking(!isSpeaking)}>
           <SoundIcon name="sound" color={COLORS.primaryColor} size={25} />
@@ -63,7 +77,7 @@ ${stories[storyId].story}
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.content}>{stories[storyId].story}</Text>
+        <Text style={styles.content}>{story?.story}</Text>
 
         <View style={styles.interactSection}>
           <View style={{ flexDirection: 'row' }}>
@@ -89,7 +103,7 @@ ${stories[storyId].story}
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.subtitle}>{stories[storyId].likes} likes</Text>
+        <Text style={styles.subtitle}>{story?.likes} likes</Text>
       </ScrollView>
     </View>
   );

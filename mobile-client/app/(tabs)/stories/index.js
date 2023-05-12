@@ -1,17 +1,25 @@
-import { View, Text, ScrollView, TouchableOpacity, Share } from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Share,
+  RefreshControl,
+} from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
 import LikeIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SaveIcons from 'react-native-vector-icons/MaterialIcons';
 import ShareIcon from 'react-native-vector-icons/Feather';
 import { useRouter } from 'expo-router';
+import axios from 'axios';
 
 import styles from './style';
 import { ScreenHeader } from '../../../components';
-import { stories } from '../../../constants/dummy';
-import { COLORS } from '../../../constants/theme';
+import { COLORS, FONT, SIZES } from '../../../constants/theme';
+import { baseURL } from '../../../config';
 
-const StoryCard = ({ id, title, author, story, likes }) => {
-  const router = useRouter()
+const StoryCard = ({ id, title, author, story, likes, datetime }) => {
+  const router = useRouter();
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
 
@@ -37,10 +45,14 @@ ${story}
       </Text>
       <View style={styles.subtitleSection}>
         <Text style={styles.subtitle}>
-          Posted by {author} &#8226; 2 days ago
+          Posted by {author}  &#8226;  {datetime}
         </Text>
       </View>
-      <TouchableOpacity onPress={() => {router.push(`stories/${id}`)}}>
+      <TouchableOpacity
+        onPress={() => {
+          router.push(`stories/${id}`);
+        }}
+      >
         <Text style={styles.content} numberOfLines={5}>
           {story}
         </Text>
@@ -76,20 +88,93 @@ ${story}
 };
 
 const Stories = () => {
+  const router = useRouter();
+
+  const [allStories, setAllStories] = useState();
+  const [refreshing, setRefreshing] = useState(false)
+
+  const getAllStories = async () => {
+    try {
+      const { data } = await axios.get(`${baseURL}/api/stories`);
+      setAllStories(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllStories();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    getAllStories();
+  }, []);
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} 
+      refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            progressBackgroundColor={COLORS.primaryColor}
+          />
+        }
+    >
       <ScreenHeader title="Stories" />
 
-        {stories.map((story) => (
-          <StoryCard
-            title={story.title}
-            author={story.author}
-            story={story.story}
-            likes={story.likes}
-            id={story.id}
-            key={story.id}
-          />
-        ))}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text
+          style={{
+            fontFamily: FONT.regular,
+            color: COLORS.darkHeading,
+            fontSize: SIZES.large,
+            marginBottom: 20,
+          }}
+        >
+          Recent Stories
+        </Text>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: COLORS.primaryColor,
+            borderRadius: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 5,
+            height: 45,
+            width: 90,
+          }}
+          onPress={() => {
+            router.push('/newStory');
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: FONT.bold,
+              color: COLORS.darkHeading,
+              fontSize: 20,
+            }}
+          >
+            Create
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {allStories?.map((story) => (
+        <StoryCard
+          title={story.title}
+          author={story.author}
+          story={story.story}
+          likes={story.likes}
+          datetime={story.datetime}
+          id={story.id}
+          key={story.id}
+        />
+      )).reverse()}
     </ScrollView>
   );
 };

@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
@@ -11,13 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 import { COLORS, FONT, SIZES } from '../../constants/theme';
-import { users, seniorCitizenNames } from '../../constants/dummy';
+// import { users, seniorCitizenNames } from '../../constants/dummy';
 import { setLoggedInUser, getLoggedInUser } from '../../utils/userLogin';
 
-const Login = () => {
+const Profile = () => {
   const router = useRouter();
 
-  const randomIndex = Math.floor(Math.random() * seniorCitizenNames.length);
 
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
@@ -105,4 +103,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Profile;
