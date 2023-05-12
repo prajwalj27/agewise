@@ -7,6 +7,7 @@ import {
   chatRoom1,
   chatRoom2,
   chatRoom3,
+  chatRoom4,
   stories,
 } from './constants.js';
 
@@ -29,6 +30,7 @@ app.get('/api/chats/:id', async (req, res) => {
     chatId === '1' && res.status(200).json(chatRoom1);
     chatId === '2' && res.status(200).json(chatRoom2);
     chatId === '3' && res.status(200).json(chatRoom3);
+    chatId === '4' && res.status(200).json(chatRoom4);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -42,6 +44,7 @@ app.post('/api/chats/new/:id', async (req, res) => {
     chatId === '1' && chatRoom1.push(newMessage);
     chatId === '2' && chatRoom2.push(newMessage);
     chatId === '3' && chatRoom3.push(newMessage);
+    chatId === '4' && chatRoom4.push(newMessage);
 
     res.status(200).json({ message: 'Message sent' });
   } catch (err) {

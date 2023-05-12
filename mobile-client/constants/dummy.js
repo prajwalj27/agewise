@@ -105,6 +105,11 @@ export const discussions = [
     topic: 'Naashta Paani',
     members: 4,
   },
+  {
+    id: 4,
+    topic: 'TimePass ki baate',
+    members: 5,
+  },
 ];
 
 export const chat = [

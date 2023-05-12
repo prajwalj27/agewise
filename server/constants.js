@@ -38,11 +38,66 @@ export const chatRoom0 = [
   },
 ];
 
-export const chatRoom1 = [];
+export const chatRoom1 = [
+  {
+    id: 0,
+    author: 'Kartik',
+    message: 'Modi Sarkar',
+    datetime: '11/05/2023 22:16',
+  },
+];
 
-export const chatRoom2 = [];
+export const chatRoom2 = [
+  {
+    id: 0,
+    author: 'Kartik',
+    message: 'Can plan to meet after 2 weeks??',
+    datetime: '10/05/2023 12:34',
+  },
 
-export const chatRoom3 = [];
+  {
+    id: 1,
+    author: 'Hrishi',
+    message: 'When and Where??',
+    datetime: '10/05/2023 12:34',
+  },
+  {
+    id: 2,
+    author: 'Aryan',
+    message: 'Mujhe kabhi bhi chalega. mai khali hi baitha rehta hu!🥲',
+    datetime: '10/05/2023 12:45',
+  },
+];
+
+export const chatRoom3 = [
+  {
+    id: 0,
+    author: 'Hrishi',
+    message: 'Kal subah 10 baje Menduwada ka plan banate hai!!',
+    datetime: '11/05/2023 22:16',
+  },
+  {
+    id: 1,
+    author: 'Aryan',
+    message: '😋🤩🔥💯',
+    datetime: '11/05/2023 22:30',
+  },
+];
+
+export const chatRoom4 = [
+  {
+    id: 0,
+    author: 'Aryan',
+    message: 'Koi movie dekhne chalte hai? Kya bolte bhailog??',
+    datetime: '11/05/2023 22:16',
+  },
+  {
+    id: 1,
+    author: 'Hrishi',
+    message: 'Mai ready hu🤩🔥',
+    datetime: '11/05/2023 22:31',
+  },
+];
 
 export const stories = [
   {
