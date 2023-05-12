@@ -30,16 +30,6 @@ export default function AppLayout() {
         }}
       >
         <Tabs.Screen
-          name="home"
-          options={{
-            title: 'Home',
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="home" size={50} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="stories"
           options={{
             title: 'Stories',

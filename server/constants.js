@@ -146,3 +146,11 @@ export const stories = [
       "Once in a bustling marketplace, a rich merchant dropped a shiny golden coin. A poor old man noticed it and picked it up. Instead of keeping it for himself, he handed it back to the merchant. The merchant, impressed by the old man's honesty, rewarded him generously. Later, the old man revealed, 'I am not poor. I am rich with contentment and honesty.' The moral of the story is that true wealth lies in integrity and the joy of doing what is right, rather than material possessions.",
   },
 ];
+
+export const reminders = [
+  {
+    id: 0,
+    title: 'Take Medicines',
+    datetime: '11/05/2023, 09:30'
+  }
+]

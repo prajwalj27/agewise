@@ -4,17 +4,22 @@ import {
   Button,
   ScrollView,
   Platform,
+  RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import * as Notifications from 'expo-notifications';
 import DeleteIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EditIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Device from 'expo-device';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useRouter } from 'expo-router';
+import axios from 'axios';
 
 import styles from './style';
 import { ScreenHeader, Clock } from '../../../components';
 import { COLORS, FONT, SIZES } from '../../../constants/theme';
+import { baseURL } from '../../../config';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -26,11 +31,36 @@ Notifications.setNotificationHandler({
 
 const Reminders = () => {
   const datetime = new Date().toISOString();
+  const router = useRouter();
+
+  const [reminders, setReminders] = useState();
+  const [refreshing, setRefreshing] = useState(false)
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getReminders()
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
+  const getReminders = async () => {
+    try {
+      const { data } = await axios.get(`${baseURL}/api/reminders`);
+      setReminders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getReminders();
+  }, []);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -56,10 +86,29 @@ const Reminders = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        progressBackgroundColor={COLORS.primaryColor}
+      />
+    }>
       <ScreenHeader title="Reminders" />
 
       <Clock />
+
+      {/* <View>
+        <DateTimePicker
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={(event, selectedDate) => {
+            const currentDate = selectedDate;
+            setDate(currentDate);
+          }}
+        />
+      </View> */}
 
       {/* <Text
         style={{
@@ -98,64 +147,64 @@ const Reminders = () => {
         />
       </View> */}
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.title} numberOfLines={1}>
-              Go for a walk
-            </Text>
-            <Text style={styles.textAlt}>10:00 am &#8226; Mon, 1 May</Text>
-          </View>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 20,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: COLORS.primaryColor,
+            borderRadius: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 5,
+            height: 45,
+            width: 90,
+          }}
+          onPress={() => {
+            router.push('/newReminder');
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: FONT.bold,
+              color: COLORS.darkHeading,
+              fontSize: 20,
+            }}
+          >
+            Create
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <EditIcon name="edit" color={COLORS.primaryColor} size={30} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <DeleteIcon name="delete-outline" color="red" size={30} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.title} numberOfLines={1}>
-              Meet Mr. Sharmaji
-            </Text>
-            <Text style={styles.textAlt}>11:35 am &#8226; Mon, 8 May</Text>
-          </View>
-
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <EditIcon name="edit" color={COLORS.primaryColor} size={30} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <DeleteIcon name="delete-outline" color="red" size={30} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.title} numberOfLines={1}>
-              Take Medicines
-            </Text>
-            <Text style={styles.text}>09:30 pm &#8226; Sun, 14 May</Text>
-          </View>
-
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <EditIcon name="edit" color={COLORS.primaryColor} size={30} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 10 }}>
-              <DeleteIcon name="delete-outline" color="red" size={30} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
+      <View
+        showsVerticalScrollIndicator={false}
         
-      </ScrollView>
-    </View>
+      >
+        {reminders?.map((reminder) => (
+          <View style={styles.card} key={reminder.id}>
+            <View>
+              <Text style={styles.title} numberOfLines={1}>
+                {reminder.title}
+              </Text>
+              <Text style={styles.text}>{reminder.datetime}</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity style={{ marginLeft: 10 }}>
+                <EditIcon name="edit" color={COLORS.primaryColor} size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{ marginLeft: 10 }}>
+                <DeleteIcon name="delete-outline" color="red" size={30} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 

@@ -9,6 +9,7 @@ import {
   chatRoom3,
   chatRoom4,
   stories,
+  reminders,
 } from './constants.js';
 
 const app = express();
@@ -80,6 +81,24 @@ app.post('/api/stories/new', async (req, res) => {
   }
 });
 
+app.get('/api/reminders', async (req, res) => {
+  try {
+    res.status(200).json(reminders);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/api/reminders/new', async (req, res) => {
+  const newReminder = req.body;
+
+  try {
+    reminders.push(newReminder);
+    res.status(200).json({ message: 'Reminder Created' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
